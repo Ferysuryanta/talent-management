@@ -14,6 +14,7 @@ public class Talent {
 	  @Id
 	  private String id;
 	  private String name;
+	  private String group;
 	  private String jobFamily;
 	  private String officeBased;
 }
