@@ -1,0 +1,295 @@
+swagger: '2.0'
+info:
+  description: Spring Boot Microservices Chassis API Documentation
+  version: '1'
+  title: Microservices Chassis
+  contact:
+    name: Imam Sya'bullah Muhtar
+    email: imamsyabullah21@gmail.com
+host: localhost
+basePath: /
+tags:
+  - name: auth-controller
+    description: Auth Controller
+
+  - name: simple-kafka-controller
+    description: Simple Kafka Controller
+  - name: user-controller
+    description: User Controller
+paths:
+
+  /getAllUser:
+    get:
+      tags:
+        - user-controller
+      summary: getAlluser
+      operationId: getAlluserUsingGET
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UserDto-EncryptedPassword'
+
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/UnauthorizedResponse'
+      security:
+        - JWT: []
+  /kafka/publish:
+    post:
+      tags:
+        - simple-kafka-controller
+      summary: publishKafka
+      operationId: publishKafkaUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: productDto
+          description: productDto
+          required: true
+          schema:
+            $ref: '#/definitions/ProductDto'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: string
+            example: "Done"
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/UnauthorizedResponse'
+      security:
+        - JWT: []
+  /login:
+    post:
+      tags:
+        - auth-controller
+      summary: login
+      operationId: loginUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/SuccessLoginJWT'
+        '401':
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/UnauthorizedLoginJWT'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorObtainUser'
+
+  /users/signup:
+    post:
+      tags:
+        - auth-controller
+      summary: signUp
+      operationId: signUpUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - text/plain
+      parameters:
+        - in: body
+          name: userDto
+          description: userDto
+          required: true
+          schema:
+            $ref: '#/definitions/UserDto'
+      responses:
+        '201':
+          description: CREATED
+          schema:
+            type: string
+            example: "Success"
+        '422':
+          description: Unprocessable Entity
+          schema:
+            type: string
+            example: "User already exist"
+
+
+securityDefinitions:
+  JWT:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  ErrorObtainUser:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Error when trying to obtain user"
+      code:
+        type: integer
+        format: int32
+        example: 500
+    title: ErrorObtainUser
+
+  ProductDto:
+    type: object
+    required:
+      - id
+      - price
+      - productName
+      - productType
+    properties:
+      id:
+        type: string
+        example: "1"
+      productName:
+        type: string
+        example: "Keyboard"
+      productType:
+        type: string
+        example: "tools"
+      price:
+        type: integer
+        format: int32
+        example: 120
+    title: ProductDto
+
+  SuccessLoginJWT:
+    type: object
+    properties:
+      access_token:
+        type: string
+        example: "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJMaXZlc3RvY2tCRSIsInN1YiI6IkpXVCBUb2tlbiIsImlkIjoxLCJ1c2VyTmFtZSI6InRlc3QiLCJ0ZW5hbnROYW1lIjoiRHVtbXkiLCJpYXQiOjE2NDg4MDMyMDcsImV4cCI6MTY0ODg4OTYwN30.jd7LMFhAUInvlrkgEK-nh5E2U5gYJaqWyFpHp5SEnHx3lOYcHjvqe464E8V-yyzmrr1y5lfFF2he_StDAh-A9Q"
+      user:
+        $ref: '#/definitions/User'
+
+    title: UnauthorizedResponse
+  UnauthorizedResponse:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Bad authorization request"
+      code:
+        type: integer
+        format: int32
+        example: 401
+    title: UnauthorizedResponse
+
+  UnauthorizedLoginJWT:
+    type: object
+    properties:
+      message:
+        type: string
+        example: "Username or password invalid"
+      code:
+        type: integer
+        format: int32
+        example: 401
+    title: UnauthorizedLoginJWT
+  User:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        example: 1
+      email:
+        type: string
+        example:
+      userName:
+        type: string
+        minLength: 4
+        maxLength: 20
+        example: "test"
+      password:
+        type: string
+        minLength: 4
+        maxLength: 2147483647
+        example:
+      role:
+        type: string
+        example:
+      tenantName:
+        type: string
+        example: "Dummy"
+      status:
+        type: string
+        example:
+      verificationLink:
+        type: string
+        example:
+      verificationId:
+        type: string
+        example:
+      lastModifiedDate:
+        type: string
+        example:
+      createdDate:
+        type: string
+        example:
+      validLinkUntil:
+        type: string
+        example:
+    title: User
+  UserDto:
+    type: object
+    required:
+      - email
+      - password
+      - tenantName
+      - userName
+    properties:
+      email:
+        type: string
+        example: "test@mail.com"
+      userName:
+        type: string
+        minLength: 4
+        maxLength: 20
+        example: "test"
+      password:
+        type: string
+        minLength: 4
+        maxLength: 2147483647
+        example: "password"
+      role:
+        type: string
+        example: "admin"
+      tenantName:
+        type: string
+        example: "Dummy"
+    title: UserDto
+  UserDto-EncryptedPassword:
+    type: object
+    properties:
+      email:
+        type: string
+        example: "test@mail.com"
+      userName:
+        type: string
+        minLength: 4
+        maxLength: 20
+        example: "test"
+      password:
+        type: string
+        minLength: 4
+        maxLength: 2147483647
+        example: "$2a$10$s9v2sqbSXO84SYPPPBJUvO4UfXZQCkwcX278Fous/KP.BrGdX55Zq"
+      role:
+        type: string
+        example: "admin"
+      tenantName:
+        type: string
+        example: "Dummy"
+    title: UserDto-EncryptedPassword

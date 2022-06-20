@@ -1,0 +1,30 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+
+  <changeSet author="Arif_P (generated)" id="1646365924236-1">
+    <createTable tableName="mst_comment">
+      <column autoIncrement="true" name="id" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="mst_commentPK"/>
+      </column>
+      <column name="timestamp" type="datetime"/>
+      <column name="talent_name" type="VARCHAR(255)"/>
+      <column name="created_by" type="VARCHAR(50)"/>
+      <column name="category" type="VARCHAR(50)"/>
+      <column name="status" type="VARCHAR(50)"/>
+      <column name="description" type="VARCHAR(255)"/>
+    </createTable>
+  </changeSet>
+  
+    <changeSet author="Arif_P (generated)" id="1646365924236-2">
+    <createTable tableName="mst_talent">
+      <column autoIncrement="true" name="id" type="BIGINT">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="mst_talentPK"/>
+      </column>
+      <column name="name" type="VARCHAR(255)"/>
+      <column name="job_family" type="VARCHAR(255)"/>
+      <column name="office_based" type="VARCHAR(255)"/>
+    </createTable>
+  </changeSet>
+</databaseChangeLog>
