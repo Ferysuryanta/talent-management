@@ -4,31 +4,38 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
 
-	<changeSet author="Arif_P (generated)" id="1646365924236-1">
-		<createTable tableName="mst_comment">
-			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"
-					primaryKeyName="mst_commentPK" />
-			</column>
-			<column name="timestamp" type="datetime" />
-			<column name="talent_name" type="VARCHAR(255)" />
-			<column name="created_by" type="VARCHAR(50)" />
-			<column name="category" type="VARCHAR(50)" />
-			<column name="status" type="VARCHAR(50)" />
-			<column name="description" type="VARCHAR(255)" />
-		</createTable>
-	</changeSet>
-
-	<changeSet author="Arif_P (generated)" id="1646365924236-2">
-		<createTable tableName="mst_talent">
-			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true"
-					primaryKeyName="mst_talentPK" />
-			</column>
-			<column name="name" type="VARCHAR(255)" />
-			<column name="job_family" type="VARCHAR(255)" />
-			<column name="group" type="VARCHAR(255)" />
-			<column name="office_based" type="VARCHAR(255)" />
-		</createTable>
-	</changeSet>
+   <changeSet author="Dwiki_K782 (generated)" id="1655785910735-1">
+        <createTable tableName="mst_comment">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="mst_commentPK"/>
+            </column>
+            <column name="category" type="VARCHAR(255)"/>
+            <column name="created_by" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="timestamp" type="datetime"/>
+            <column name="talent_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dwiki_K782 (generated)" id="1655785910735-2">
+        <createTable tableName="mst_talent">
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="mst_talentPK"/>
+            </column>
+            <column name="grade" type="VARCHAR(255)"/>
+            <column name="group" type="VARCHAR(255)"/>
+            <column name="job_family" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="office_based" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Dwiki_K782 (generated)" id="1655785910735-3">
+        <addUniqueConstraint columnNames="id" constraintName="UC_MST_COMMENTID_COL" tableName="mst_comment"/>
+    </changeSet>
+    <changeSet author="Dwiki_K782 (generated)" id="1655785910735-4">
+        <addUniqueConstraint columnNames="id" constraintName="UC_MST_TALENTID_COL" tableName="mst_talent"/>
+    </changeSet>
+    <changeSet author="Dwiki_K782 (generated)" id="1655785910735-5">
+        <addForeignKeyConstraint baseColumnNames="talent_id" baseTableName="mst_comment" constraintName="FKboiu6fkr40els6taqk3xxg4kr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_talent" validate="true"/>
+    </changeSet>
 </databaseChangeLog>
